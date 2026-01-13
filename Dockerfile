@@ -35,11 +35,13 @@ ENV NODE_ENV=production
 # Copy necessary files from the builder stage
 COPY --from=builder /app/tsconfig.json ./tsconfig.json
 COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/yarn.lock ./yarn.lock
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/sources ./sources
+COPY --from=builder /app/prisma ./prisma
 
-# Expose the port the app will run on
-EXPOSE 3000
+# Expose the port the app will run on (47365 for production, 9091 for metrics)
+EXPOSE 47365 9091
 
 # Command to run the application
 CMD ["yarn", "start"] 
